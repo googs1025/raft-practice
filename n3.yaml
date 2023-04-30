@@ -1,0 +1,17 @@
+server-name: myraft-3
+server-id: 3
+logstore: /n3/log_store.bolt
+stablestore: /n3/stable_store.bolt
+transport: 127.0.0.1:3003
+snapshot: /n3
+port: 8083
+servers:
+  - id: 1
+    address: 127.0.0.1:3001
+    http: http://127.0.0.1:8081
+  - id: 2
+    address: 127.0.0.1:3002
+    http: http://127.0.0.1:8082
+  - id: 3
+    address: 127.0.0.1:3003
+    http: http://127.0.0.1:8083
