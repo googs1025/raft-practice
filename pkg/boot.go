@@ -52,10 +52,13 @@ func BootStrap(path string) error {
 	}
 
 	// 5. 保存文件快照
-	snapshotStore, err := raft.NewFileSnapshotStore(root+SysConfig.Snapshot, 1, nil)
-	if err != nil {
-		return err
-	}
+	//snapshotStore, err := raft.NewFileSnapshotStore(root+SysConfig.Snapshot, 1, nil)
+	//if err != nil {
+	//	return err
+	//}
+
+	// 不使用内部snap功能
+	snapshotStore:= raft.NewDiscardSnapshotStore()
 
 	// 6. 节点之间的通信
 	addr, err := net.ResolveTCPAddr("tcp", sysConfig.Transport)
@@ -65,7 +68,8 @@ func BootStrap(path string) error {
 	}
 
 	// 自定义fsm
-	fsm := &MyFSM{}
+	//fsm := &MyFSM{}
+	fsm:=&LocalFSM{}
 
 	RaftNode, err = raft.NewRaft(config, fsm, logStore, stableStore, snapshotStore, transport)
 	if err != nil {
