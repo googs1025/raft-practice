@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/raft"
 	"github.com/hashicorp/raft-boltdb"
-	c "golanglearning/new_project/raft_practice/pkg/config"
+	c "github.com/practice/raft_practice/pkg/config"
 	"log"
 	"net"
 	"os"
@@ -16,11 +16,15 @@ var RaftNode *raft.Raft
 var SysConfig *c.Config
 
 func BootStrap(path string) error {
+
+	// 1. 项目配置
 	sysConfig, err := c.LoadConfig(path)
 	if err != nil {
 		return err
 	}
 	SysConfig = sysConfig
+
+	// 2. raft配置
 	config := raft.DefaultConfig()
 	config.LocalID = raft.ServerID(sysConfig.ServerID)
 	config.Logger = hclog.New(&hclog.LoggerOptions{
@@ -29,10 +33,11 @@ func BootStrap(path string) error {
 		Output: os.Stderr,
 	})
 
+	// FIXME: 测试使用，需要看snapshot才设置的
 	config.SnapshotInterval = time.Second * 5
 	config.SnapshotThreshold = 2
 
-	//logStore保存配置
+	// 3. logStore保存配置
 	dir, _ := os.Getwd()
 	root := strings.Replace(dir, "\\", "/", -1)
 	logStore, err := raftboltdb.NewBoltStore(root + sysConfig.LogStore)
@@ -40,24 +45,26 @@ func BootStrap(path string) error {
 		return err
 	}
 
-	//保存节点信息
+	// 4. 保存节点信息
 	stableStore, err := raftboltdb.NewBoltStore(root + sysConfig.StableStore)
 	if err != nil {
 		return err
 	}
 
-	// 保存文件快照
+	// 5. 保存文件快照
 	snapshotStore, err := raft.NewFileSnapshotStore(root+SysConfig.Snapshot, 1, nil)
 	if err != nil {
 		return err
 	}
 
-	// 节点之间的通信
+	// 6. 节点之间的通信
 	addr, err := net.ResolveTCPAddr("tcp", sysConfig.Transport)
 	transport, err := raft.NewTCPTransport(addr.String(), addr, 5, time.Second*10, os.Stdout)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// 自定义fsm
 	fsm := &MyFSM{}
 
 	RaftNode, err = raft.NewRaft(config, fsm, logStore, stableStore, snapshotStore, transport)

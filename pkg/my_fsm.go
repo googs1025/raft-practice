@@ -7,6 +7,9 @@ import (
 	"log"
 )
 
+var _ raft.FSM = &MyFSM{}
+
+// MyFSM raft中最重要的struct，定义如何将数据持久化日志、如何存储快照、如何备份快照等操作
 type MyFSM struct {
 }
 

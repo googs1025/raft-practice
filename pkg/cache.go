@@ -74,8 +74,14 @@ func CacheServer() *gin.Engine {
 	r.Handle("POST", "/get", func(context *gin.Context) {
 		req := NewCacheRequest()
 		Error(context.BindJSON(req))
-		if v := Get(req.Key); v != nil {
-			req.Value = v.(string)
+		//if v := Get(req.Key); v != nil {
+		//	req.Value = v.(string)
+		//	context.JSON(200, req)
+		//} else {
+		//	Error(fmt.Errorf("find no cache"))
+		//}
+		if v, err := LocalCache.GetItem(req.Key); err == nil {
+			req.Value = v
 			context.JSON(200, req)
 		} else {
 			Error(fmt.Errorf("find no cache"))

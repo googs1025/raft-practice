@@ -2,18 +2,20 @@ package main
 
 import (
 	"flag"
-	"golanglearning/new_project/raft_practice/pkg"
+	"github.com/practice/raft_practice/pkg"
 	"log"
 )
 
 func main() {
 
 	cfile := ""
-	flag.StringVar(&cfile, "c", "", "your config file ")
+	// ex: go run cmd/main.go -c n1.yaml
+	flag.StringVar(&cfile, "c", "", "config file ")
 	flag.Parse()
 	if cfile == "" {
 		log.Fatal("config file error")
 	}
+	// raft流程
 	err := pkg.BootStrap(cfile)
 	if err != nil {
 		log.Fatal(err)
@@ -24,7 +26,7 @@ func main() {
 	//	time.Sleep(time.Second * 1)
 	//}
 
-	// 启动gin server
+	// 启动 gin server
 	pkg.CacheServer().Run(":" + pkg.SysConfig.Port)
 
 }

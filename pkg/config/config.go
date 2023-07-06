@@ -23,6 +23,7 @@ type Config struct {
 	Transport   string
 	Servers     []Server
 	Port        string
+	LocalCache  string `yaml:"local-cache"`
 }
 
 func NewConfig() *Config {
