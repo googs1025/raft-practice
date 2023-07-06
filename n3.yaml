@@ -5,6 +5,7 @@ stablestore: /n3/stable_store.bolt
 transport: 127.0.0.1:3003
 snapshot: /n3
 port: 8083
+local-cache: tmp3
 servers:
   - id: 1
     address: 127.0.0.1:3001

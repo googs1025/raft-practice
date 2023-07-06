@@ -1,1 +1,1 @@
-go run cmd/main.go -c n3.yaml
+go run cmd/main.go --config n3.yaml

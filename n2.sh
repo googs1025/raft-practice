@@ -1,1 +1,1 @@
-go run cmd/main.go -c n2.yaml
+go run cmd/main.go --config n2.yaml

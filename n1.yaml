@@ -2,13 +2,15 @@ server-name: myraft-1
 server-id: 1
 logstore: /n1/log_store.bolt
 stablestore: /n1/stable_store.bolt
-transport: 127.0.0.1:3001
-port: 8081
+transport: 127.0.0.1:3001        # 各节点选举通信端口
+port: 8081                       # 服务端口
 snapshot: /n1
+local-cache: tmp1                # 本地缓存存储目录
+# 分布式节点通信配置
 servers:
-  - id: 1
-    address: 127.0.0.1:3001
-    http: http://127.0.0.1:8081
+  - id: 1                        # 选举id
+    address: 127.0.0.1:3001      # 各节点通信端口
+    http: http://127.0.0.1:8081  # server端口
   - id: 2
     address: 127.0.0.1:3002
     http: http://127.0.0.1:8082

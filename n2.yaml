@@ -5,6 +5,7 @@ stablestore: /n2/stable_store.bolt
 transport: 127.0.0.1:3002
 snapshot: /n2
 port: 8082
+local-cache: tmp2
 servers:
   - id: 1
     address: 127.0.0.1:3001
