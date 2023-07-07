@@ -3,10 +3,12 @@ package raft
 import (
 	"encoding/json"
 	"io"
+	"k8s.io/klog"
 	"log"
 
 	"github.com/hashicorp/raft"
 	"github.com/practice/raft_practice/pkg/cache"
+	"github.com/practice/raft_practice/pkg/common"
 )
 
 var _ raft.FSM = &MyFSM{}
@@ -14,7 +16,7 @@ var _ raft.FSM = &MyFSM{}
 // MyFSM raft中最重要的struct，
 // 定义如何将数据持久化日志、如何存储快照、如何备份快照等操作
 type MyFSM struct {
-	CacheI  cache.Cache
+	CacheI cache.Cache
 }
 
 func NewMyFSM() *MyFSM {
@@ -28,7 +30,15 @@ func NewMyFSM() *MyFSM {
 func (m *MyFSM) Apply(log *raft.Log) interface{} {
 	req := NewCacheRequest()
 	err := json.Unmarshal(log.Data, req)
-	m.CacheI.SetItem(req.Key, req.Value) // 数据保存
+	switch req.Operation {
+	case common.SetOperation:
+		klog.Info("set info: ", req)
+		m.CacheI.SetItem(req.Key, req.Value) // 数据保存
+	case common.DelOperation:
+		klog.Infof("del info: ", req)
+		m.CacheI.DelItem(req.Key)
+	}
+
 	return err
 }
 

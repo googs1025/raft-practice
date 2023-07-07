@@ -9,16 +9,15 @@ import (
 	"github.com/practice/raft_practice/pkg/cache"
 )
 
-
 type LocalFSM struct {
-	CacheI  cache.Cache
+	CacheI cache.Cache
 }
 
 var (
 	dOnce sync.Once
 )
 
-func getOnceBcache()  {
+func getOnceBcache() {
 	dOnce.Do(func() {
 
 	})

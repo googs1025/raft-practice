@@ -73,8 +73,8 @@ func BootStrap(path string) error {
 	}
 
 	// 自定义fsm
-	//fsm := NewMyFSM()
-	fsm := NewLocalFSM(root+"/"+sysConfig.LocalCache)
+	fsm := NewMyFSM()
+	//fsm := NewLocalFSM(root + "/" + sysConfig.LocalCache)
 
 	RaftNode, err = raft.NewRaft(config, fsm, logStore, stableStore, snapshotStore, transport)
 	if err != nil {

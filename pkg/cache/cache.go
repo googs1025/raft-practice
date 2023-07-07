@@ -6,7 +6,7 @@ import (
 
 var (
 	once sync.Once
-	m *sync.Map
+	m    *sync.Map
 )
 
 type MapCache struct {
@@ -14,7 +14,6 @@ type MapCache struct {
 }
 
 func NewMapCache() Cache {
-
 	once.Do(func() {
 		m = &sync.Map{}
 	})
@@ -39,4 +38,9 @@ func (m *MapCache) GetItem(key string) (string, error) {
 		return res, nil
 	}
 	return "", nil
+}
+
+func (m *MapCache) DelItem(key string) error {
+	m.Delete(key)
+	return nil
 }

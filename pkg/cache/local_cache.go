@@ -11,14 +11,14 @@ var LocalCache *Bcache
 
 type Bcache struct {
 	*badger.DB
-	init   bool
+	init bool
 }
 
 var (
-	dOnce sync.Once
-	db    *badger.DB
+	dOnce          sync.Once
+	db             *badger.DB
 	BcacheInstance *Bcache
-	err   error
+	err            error
 )
 
 func GetBcache() *Bcache {
@@ -47,6 +47,9 @@ func (bc *Bcache) SetItem(key string, value string) error {
 	return err
 }
 
+func (bc *Bcache) DelItem(key string) error {
+	return nil
+}
 
 // SetItemWithTTl 带过期时间
 func (bc *Bcache) SetItemWithTTl(key string, value string, ttl time.Duration) error {
