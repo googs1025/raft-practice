@@ -16,6 +16,7 @@ badger 2023/07/07 01:24:36 INFO: Replay took: 9.5µs
 
 [GIN-debug] POST   /get                      --> github.com/practice/raft_practice/pkg/raft.CacheServer.func1 (2 handlers)
 [GIN-debug] POST   /set                      --> github.com/practice/raft_practice/pkg/raft.CacheServer.func2 (2 handlers)
+[GIN-debug] DELETE /delete                   --> github.com/practice/raft_practice/pkg/raft.CacheServer.func3 (2 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 
 ```
@@ -24,4 +25,5 @@ badger 2023/07/07 01:24:36 INFO: Replay took: 9.5µs
 ```bash
 1. set 存入缓存
 2. get 获取缓存
+3. delete 删除缓存
 ```
